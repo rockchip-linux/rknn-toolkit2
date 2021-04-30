@@ -60,7 +60,7 @@ if __name__ == '__main__':
     rknn = RKNN()
 
     # Config for Model Input PreProcess
-    rknn.config(mean_values=[127.5, 127.5, 127.5], std_values=[127.5, 127.5, 127.5], reorder_channel=False)
+    rknn.config(mean_values=[127.5, 127.5, 127.5], std_values=[127.5, 127.5, 127.5])
 
     # Load TensorFlow Model
     print('--> Loading model')

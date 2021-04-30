@@ -24,11 +24,11 @@ def show_outputs(outputs):
 if __name__ == '__main__':
 
     # Create RKNN object
-    rknn = RKNN(verbose=True)
+    rknn = RKNN()
 
     # pre-process config
     print('--> config model')
-    rknn.config(mean_values=[128, 128, 128], std_values=[128, 128, 128], reorder_channel=False)
+    rknn.config(mean_values=[128, 128, 128], std_values=[128, 128, 128])
     print('done')
 
     # Load tensorflow model

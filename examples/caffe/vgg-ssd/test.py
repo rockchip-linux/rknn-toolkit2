@@ -160,7 +160,7 @@ if __name__ == '__main__':
 
     # pre-process config
     print('--> config model')
-    rknn.config(mean_values=[103.94, 116.78, 123.68], std_values=[1, 1, 1], reorder_channel=True)
+    rknn.config(mean_values=[103.94, 116.78, 123.68], std_values=[1, 1, 1], quant_img_RGB2BGR=True)
     print('done')
 
     # Load tensorflow model
@@ -191,7 +191,6 @@ if __name__ == '__main__':
 
     # Set inputs
     img = cv2.imread('./road_300x300.jpg')
-    img = cv2.cvtColor(img, cv2.COLOR_BGR2RGB)
 
     print('--> Init runtime environment')
     ret = rknn.init_runtime()

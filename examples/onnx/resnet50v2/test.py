@@ -80,7 +80,7 @@ if __name__ == '__main__':
         print('done')
 
     # print('--> config model')
-    rknn.config(mean_values=[123.675, 116.28, 103.53], std_values=[58.82, 58.82, 58.82], reorder_channel=False)
+    rknn.config(mean_values=[123.675, 116.28, 103.53], std_values=[58.82, 58.82, 58.82])
     print('done')
 
     # Load model

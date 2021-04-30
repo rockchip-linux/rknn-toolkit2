@@ -26,7 +26,7 @@ if __name__ == '__main__':
     
     # pre-process config
     print('--> config model')
-    rknn.config(mean_values=[0, 0, 0], std_values=[255, 255, 255], reorder_channel=False)
+    rknn.config(mean_values=[0, 0, 0], std_values=[255, 255, 255])
     print('done')
 
     # Load tensorflow model
@@ -91,8 +91,8 @@ if __name__ == '__main__':
     if boxes is not None:
         draw(image, boxes, scores, classes)
 
-    cv2.imshow("results", image)
-    cv2.waitKeyEx(0)
+    print('Save results to results.jpg!')
+    cv2.imwrite('results.jpg', image)
 
     rknn.release()
 
