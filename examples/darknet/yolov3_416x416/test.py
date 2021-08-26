@@ -73,8 +73,11 @@ if __name__ == '__main__':
 
 
     input0_data = outputs[0]
+    np.save('./darknet_yolov3_416x416_0.npy', input0_data)
     input1_data = outputs[1]
+    np.save('./darknet_yolov3_416x416_1.npy', input1_data)
     input2_data = outputs[2]
+    np.save('./darknet_yolov3_416x416_2.npy', input1_data)
 
     input0_data = input0_data.reshape(SPAN, LISTSIZE, GRID0, GRID0)
     input1_data = input1_data.reshape(SPAN, LISTSIZE, GRID1, GRID1)
@@ -92,7 +95,7 @@ if __name__ == '__main__':
         draw(image, boxes, scores, classes)
 
     print('Save results to results.jpg!')
-    cv2.imwrite('results.jpg', image)
+    cv2.imwrite('result.jpg', image)
 
     rknn.release()
 

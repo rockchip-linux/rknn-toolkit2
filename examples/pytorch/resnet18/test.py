@@ -3,6 +3,7 @@ import cv2
 from rknn.api import RKNN
 import torchvision.models as models
 import torch
+import os
 
 
 def export_pytorch_model():
@@ -40,9 +41,10 @@ def softmax(x):
 
 if __name__ == '__main__':
 
-    export_pytorch_model()
-
     model = './resnet18.pt'
+    if not os.path.exists(model):
+        export_pytorch_model()
+
     input_size_list = [[1, 3, 224, 224]]
 
     # Create RKNN object
@@ -94,13 +96,9 @@ if __name__ == '__main__':
     # Inference
     print('--> Running model')
     outputs = rknn.inference(inputs=[img])
+    np.save('./pytorch_resnet18_0.npy', outputs[0])
 
     show_outputs(softmax(np.array(outputs[0][0])))
     print('done')
-
-    # # perf
-    # print('--> Begin evaluate model performance')
-    # perf_results = rknn.eval_perf(inputs=[img])
-    # print('done')
 
     rknn.release()

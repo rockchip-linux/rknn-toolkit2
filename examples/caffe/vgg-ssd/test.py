@@ -42,7 +42,8 @@ def IntersectBBox(box1, box2):
 
 
 def ssd_post_process(conf_data, loc_data):
-
+    np.save('./caffe_vgg-ssd_0.npy', loc_data)
+    np.save('./caffe_vgg-ssd_1.npy', conf_data)
     prior_data = np.loadtxt('mbox_priorbox_97.txt', dtype = np.float32)
 
     prior_bboxes = prior_data[:len(loc_data)]

@@ -71,6 +71,7 @@ if __name__ == '__main__':
     # Inference
     print('--> Running model')
     outputs = rknn.inference(inputs=[img])
+    np.save('./tflite_mobilenet_v1_0.npy', outputs[0])
     show_outputs(outputs)
     print('done')
 

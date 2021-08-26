@@ -100,7 +100,9 @@ if __name__ == '__main__':
     print('done')
 
     predictions = outputs[0].reshape((1, NUM_RESULTS, 4))
+    np.save('./tensorflow_ssd_mobilenet_v1_0.npy', outputs[0])
     outputClasses = outputs[1].reshape((1, NUM_RESULTS, NUM_CLASSES))
+    np.save('./tensorflow_ssd_mobilenet_v1_1.npy', outputs[0])
     candidateBox = np.zeros([2, NUM_RESULTS], dtype=int)
     vaildCnt = 0
 
@@ -192,9 +194,6 @@ if __name__ == '__main__':
              (random.random()*255, random.random()*255, random.random()*255), 3)
 
     cv2.imwrite("out.jpg", orig_img)
-
-    # Evaluate Perf on Simulator
-    rknn.eval_perf(inputs=[img], is_print=True)
 
     # Release RKNN Context
     rknn.release()

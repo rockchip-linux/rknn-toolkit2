@@ -3,6 +3,7 @@ import cv2
 from rknn.api import RKNN
 
 def show_outputs(outputs):
+    np.save('./caffe_mobilenet_v2_0.npy', outputs[0])
     output = outputs[0].reshape(-1)
     output_sorted = sorted(output, reverse=True)
     top5_str = 'mobilenet_v2\n-----TOP 5-----\n'
@@ -69,11 +70,6 @@ if __name__ == '__main__':
     print('--> Running model')
     outputs = rknn.inference(inputs=[img])
     show_outputs(outputs)
-    print('done')
-
-    # perf
-    print('--> Begin evaluate model performance')
-    perf_results = rknn.eval_perf(inputs=[img])
     print('done')
 
     rknn.release()

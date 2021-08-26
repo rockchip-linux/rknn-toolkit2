@@ -122,6 +122,7 @@ if __name__ == '__main__':
     # Inference
     print('--> Running model')
     outputs = rknn.inference(inputs=[img])
+    np.save('./onnx_resnet50v2_0.npy', outputs[0])
     x = outputs[0]
     output = np.exp(x)/np.sum(np.exp(x))
     outputs = [output]
