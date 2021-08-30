@@ -11,7 +11,7 @@ RKNN-Toolkit2 is a software development kit for users to perform model conversio
 # Checksums
 ## MD5
 ```
-871ca9bbcb96dcf89991e9a6888b3a48  rknn_toolkit2-1.1.0_5c458c6-cp36-cp36m-linux_x86_64.whl
+5fcda062d22af0d4ee766c81b64bdf12  rknn_toolkit2-1.1.1_5c458c6-cp36-cp36m-linux_x86_64.whl
 ```
 # Feedback and Community Suport
 Two ways are followed:
