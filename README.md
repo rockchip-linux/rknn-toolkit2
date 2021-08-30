@@ -14,8 +14,7 @@ RKNN-Toolkit2 is a software development kit for users to perform model conversio
 871ca9bbcb96dcf89991e9a6888b3a48  rknn_toolkit2-1.1.0_5c458c6-cp36-cp36m-linux_x86_64.whl
 ```
 # Feedback and Community Suport
-Three ways are followed:
-- [Redmine](https://redmine.rock-chips.com/) (**Feedback recommended**)
+Two ways are followed:
 - [Issues](https://github.com/rockchip-linux/rknn-toolkit2/issues) (**Feedback recommended**)
 - QQ Group Chat: 1025468710 **welcome for developer**
 <p align="center"><img width="200" height="200"  src="https://github.com/rockchip-linux/rknn-toolkit2/blob/master/QQGroupQRCode.png"/></p>
