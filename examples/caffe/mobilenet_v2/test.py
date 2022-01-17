@@ -2,6 +2,7 @@ import numpy as np
 import cv2
 from rknn.api import RKNN
 
+
 def show_outputs(outputs):
     np.save('./caffe_mobilenet_v2_0.npy', outputs[0])
     output = outputs[0].reshape(-1)
@@ -20,23 +21,23 @@ def show_outputs(outputs):
             top5_str += topi
     print(top5_str)
 
+
 if __name__ == '__main__':
 
     # Create RKNN object
-    rknn = RKNN()
-    
-    # pre-process config
-    print('--> config model')
+    rknn = RKNN(verbose=True)
+
+    # Pre-process config
+    print('--> Config model')
     rknn.config(mean_values=[103.94, 116.78, 123.68], std_values=[58.82, 58.82, 58.82], quant_img_RGB2BGR=True)
     print('done')
 
-    # Load tensorflow model
+    # Load model
     print('--> Loading model')
     ret = rknn.load_caffe(model='./mobilenet_v2.prototxt',
-                          proto='caffe',
                           blobs='./mobilenet_v2.caffemodel')
     if ret != 0:
-        print('Load mobilenet_v2 failed! Ret = {}'.format(ret))
+        print('Load model failed!')
         exit(ret)
     print('done')
 
@@ -44,25 +45,26 @@ if __name__ == '__main__':
     print('--> Building model')
     ret = rknn.build(do_quantization=True, dataset='./dataset.txt')
     if ret != 0:
-        print('Build mobilenet_v2 failed!')
+        print('Build model failed!')
         exit(ret)
     print('done')
 
     # Export rknn model
-    print('--> Export RKNN model')
+    print('--> Export rknn model')
     ret = rknn.export_rknn('./mobilenet_v2.rknn')
     if ret != 0:
-        print('Export mobilenet_v2.rknn failed!')
+        print('Export rknn model failed!')
         exit(ret)
     print('done')
 
     # Set inputs
-    img = cv2.imread('./goldfish_224x224.jpg')
+    img = cv2.imread('./dog_224x224.jpg')
 
+    # Init runtime environment
     print('--> Init runtime environment')
     ret = rknn.init_runtime()
     if ret != 0:
-        print('Init runtime environment failed')
+        print('Init runtime environment failed!')
         exit(ret)
     print('done')
 
@@ -73,4 +75,3 @@ if __name__ == '__main__':
     print('done')
 
     rknn.release()
-

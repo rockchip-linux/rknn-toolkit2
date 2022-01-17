@@ -6,7 +6,7 @@ from ssd_post_process import ssd_post_process
 if __name__ == '__main__':
 
     # Create RKNN object
-    rknn = RKNN()
+    rknn = RKNN(verbose=True)
 
     # Build model
     print('--> hybrid_quantization_step2')
@@ -19,24 +19,30 @@ if __name__ == '__main__':
     print('done')
 
     # Export rknn model
-    print('--> Export RKNN model')
+    print('--> Export rknn model')
     ret = rknn.export_rknn('./ssd_mobilenet_v2.rknn')
     if ret != 0:
-        print('Export model failed!')
+        print('Export rknn model failed!')
         exit(ret)
     print('done')
 
-    rknn.accuracy_analysis(inputs=['./dog_bike_car_300x300.jpg'], output_dir=None)
+    # Accuracy analysis
+    print('--> Accuracy analysis')
+    ret = rknn.accuracy_analysis(inputs=['./dog_bike_car_300x300.jpg'], output_dir=None)
+    if ret != 0:
+        print('Accuracy analysis failed!')
+        exit(ret)
+    print('done')
 
     # Set inputs
     img = cv2.imread('./dog_bike_car_300x300.jpg')
     img = cv2.cvtColor(img, cv2.COLOR_BGR2RGB)
 
-    # init runtime environment
+    # Init runtime environment
     print('--> Init runtime environment')
     ret = rknn.init_runtime()
     if ret != 0:
-        print('Init runtime environment failed')
+        print('Init runtime environment failed!')
         exit(ret)
     print('done')
 
@@ -49,4 +55,3 @@ if __name__ == '__main__':
     print('done')
 
     rknn.release()
-

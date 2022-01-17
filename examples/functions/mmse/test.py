@@ -2,6 +2,7 @@ import numpy as np
 import cv2
 from rknn.api import RKNN
 
+
 def show_outputs(outputs):
     output = outputs[0][0]
     output_sorted = sorted(output, reverse=True)
@@ -19,24 +20,26 @@ def show_outputs(outputs):
             top5_str += topi
     print(top5_str)
 
+
 if __name__ == '__main__':
 
     # Create RKNN object
-    rknn = RKNN()
+    rknn = RKNN(verbose=True)
 
-    # pre-process config
-    print('--> config model')
-    rknn.config(mean_values=[128, 128, 128], std_values=[128, 128, 128], quantized_algorithm='mmse')
+    # Pre-process config
+    print('--> Config model')
+    rknn.config(mean_values=[128, 128, 128], std_values=[128, 128, 128],
+                quantized_method='layer', quantized_algorithm='mmse')
     print('done')
 
-    # Load tensorflow model
+    # Load model
     print('--> Loading model')
     ret = rknn.load_tensorflow(tf_pb='mobilenet_v1.pb',
                                inputs=['input'],
                                input_size_list=[[1, 224, 224, 3]],
                                outputs=['MobilenetV1/Logits/SpatialSqueeze'])
     if ret != 0:
-        print('Load mobilenet_v1 failed!')
+        print('Load model failed!')
         exit(ret)
     print('done')
 
@@ -44,15 +47,17 @@ if __name__ == '__main__':
     print('--> Building model')
     ret = rknn.build(do_quantization=True, dataset='./dataset.txt')
     if ret != 0:
-        print('Build mobilenet_v1 failed!')
+        print('Build model failed!')
         exit(ret)
     print('done')
 
+    # Accuracy analysis
     print('--> Accuracy analysis')
     ret = rknn.accuracy_analysis(inputs=['dog_224x224.jpg'], output_dir=None)
     if ret != 0:
         print('Accuracy analysis failed!')
         exit(ret)
+    print('done')
 
     f = open('./snapshot/error_analysis.txt')
     lines = f.readlines()
@@ -68,11 +73,11 @@ if __name__ == '__main__':
     img = cv2.cvtColor(img, cv2.COLOR_BGR2RGB)
     img = np.expand_dims(img, 0)
 
-    # init runtime environment
+    # Init runtime environment
     print('--> Init runtime environment')
     ret = rknn.init_runtime()
     if ret != 0:
-        print('Init runtime environment failed')
+        print('Init runtime environment failed!')
         exit(ret)
     print('done')
 

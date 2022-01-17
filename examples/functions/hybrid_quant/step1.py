@@ -5,20 +5,19 @@ from rknn.api import RKNN
 if __name__ == '__main__':
 
     # Create RKNN object
-    rknn = RKNN()
+    rknn = RKNN(verbose=True)
     
-    # pre-process config
-    print('--> config model')
+    # Pre-process config
+    print('--> Config model')
     rknn.config(mean_values=[127.5, 127.5, 127.5], std_values=[127.5, 127.5, 127.5])
     print('done')
 
-    # Load tflite model
+    # Load model
     print('--> Loading model')
     ret = rknn.load_tensorflow(tf_pb='./ssd_mobilenet_v2.pb',
                                inputs=['FeatureExtractor/MobilenetV2/MobilenetV2/input'],
                                outputs=['concat_1', 'concat'],
-                               input_size_list=[[1,300,300,3]],
-                               predef_file=None)
+                               input_size_list=[[1,300,300,3]])
     if ret != 0:
         print('Load model failed!')
         exit(ret)
@@ -39,11 +38,11 @@ if __name__ == '__main__':
     print('')
     print('For example:')
     print('    custom_quantize_layers:')
-    print('        FeatureExtractor/MobilenetV2/expanded_conv/depthwise/BatchNorm/batchnorm/add_1_rk:0: float16')
+    print('        Conv__344:0: float16')
     print('        FeatureExtractor/MobilenetV2/expanded_conv/depthwise/Relu6:0: float16')
     print('Or:')
     print('    custom_quantize_layers: {')
-    print('        FeatureExtractor/MobilenetV2/expanded_conv/depthwise/BatchNorm/batchnorm/add_1_rk:0: float16,')
+    print('        Conv__344:0: float16,')
     print('        FeatureExtractor/MobilenetV2/expanded_conv/depthwise/Relu6:0: float16,')
     print('    }')
     print('==================================================================================================')

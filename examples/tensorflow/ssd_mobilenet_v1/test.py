@@ -21,8 +21,10 @@ W_SCALE = 5.0
 def expit(x):
     return 1. / (1. + math.exp(-x))
 
+
 def unexpit(y):
-    return -1.0 * math.log((1.0 / y) - 1.0);
+    return -1.0 * math.log((1.0 / y) - 1.0)
+
 
 def CalculateOverlap(xmin0, ymin0, xmax0, ymax0, xmin1, ymin1, xmax1, ymax1):
     w = max(0.0, min(xmax0, xmax1) - max(xmin0, xmin1))
@@ -53,44 +55,53 @@ def load_box_priors():
     return box_priors
 
 
-
 if __name__ == '__main__':
 
     # Create RKNN object
-    rknn = RKNN()
+    rknn = RKNN(verbose=True)
 
-    # Config for Model Input PreProcess
+    # Pre-process config
+    print('--> Config model')
     rknn.config(mean_values=[127.5, 127.5, 127.5], std_values=[127.5, 127.5, 127.5])
+    print('done')
 
-    # Load TensorFlow Model
+    # Load model
     print('--> Loading model')
-    rknn.load_tensorflow(tf_pb='./ssd_mobilenet_v1_coco_2017_11_17.pb',
-                         inputs=['FeatureExtractor/MobilenetV1/MobilenetV1/Conv2d_0/BatchNorm/batchnorm/mul_1'],
-                         outputs=['concat', 'concat_1'],
-                         input_size_list=[[1, INPUT_SIZE, INPUT_SIZE, 3]])
+    ret = rknn.load_tensorflow(tf_pb='./ssd_mobilenet_v1_coco_2017_11_17.pb',
+                               inputs=['Preprocessor/sub'],
+                               outputs=['concat', 'concat_1'],
+                               input_size_list=[[1, INPUT_SIZE, INPUT_SIZE, 3]])
+    if ret != 0:
+        print('Load model failed!')
+        exit(ret)
     print('done')
 
     # Build Model
     print('--> Building model')
-    rknn.build(do_quantization=True, dataset='./dataset.txt')
+    ret = rknn.build(do_quantization=True, dataset='./dataset.txt')
+    if ret != 0:
+        print('Build model failed!')
+        exit(ret)
     print('done')
 
-    # Export RKNN Model
-    rknn.export_rknn('./ssd_mobilenet_v1_coco.rknn')
-
-    # Direct Load RKNN Model
-    # rknn.load_rknn('./ssd_mobilenet_v1_coco.rknn')
+    # Export rknn model
+    print('--> Export rknn model')
+    ret = rknn.export_rknn('./ssd_mobilenet_v1_coco.rknn')
+    if ret != 0:
+        print('Export rknn model failed!')
+        exit(ret)
+    print('done')
 
     # Set inputs
     orig_img = cv2.imread('./road.bmp')
     img = cv2.cvtColor(orig_img, cv2.COLOR_BGR2RGB)
     img = cv2.resize(img, (INPUT_SIZE, INPUT_SIZE), interpolation=cv2.INTER_CUBIC)
 
-    # init runtime environment
+    # Init runtime environment
     print('--> Init runtime environment')
     ret = rknn.init_runtime()
     if ret != 0:
-        print('Init runtime environment failed')
+        print('Init runtime environment failed!')
         exit(ret)
     print('done')
 
@@ -116,7 +127,7 @@ if __name__ == '__main__':
 
         # Skip the first catch-all class.
         for j in range(1, NUM_CLASSES):
-            score = expit(outputClasses[0][i][j]);
+            score = expit(outputClasses[0][i][j])
 
             if score > topClassScore:
                 topClassScoreIndex = j
@@ -147,7 +158,7 @@ if __name__ == '__main__':
         predictions[0][n][1] = xmin
         predictions[0][n][2] = ymax
         predictions[0][n][3] = xmax
- 
+
     # NMS
     for i in range(0, vaildCnt):
         if candidateBox[0][i] == -1:
@@ -175,8 +186,6 @@ if __name__ == '__main__':
             if iou >= 0.45:
                 candidateBox[0][j] = -1
 
-
-
     # Draw result
     for i in range(0, vaildCnt):
         if candidateBox[0][i] == -1:
@@ -191,9 +200,8 @@ if __name__ == '__main__':
 
         print("%d @ (%d, %d) (%d, %d) score=%f" % (topClassScoreIndex, xmin, ymin, xmax, ymax, topClassScore))
         cv2.rectangle(orig_img, (int(xmin), int(ymin)), (int(xmax), int(ymax)),
-             (random.random()*255, random.random()*255, random.random()*255), 3)
+                      (random.random()*255, random.random()*255, random.random()*255), 3)
 
     cv2.imwrite("out.jpg", orig_img)
 
-    # Release RKNN Context
     rknn.release()

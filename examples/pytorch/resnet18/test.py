@@ -48,18 +48,18 @@ if __name__ == '__main__':
     input_size_list = [[1, 3, 224, 224]]
 
     # Create RKNN object
-    rknn = RKNN()
+    rknn = RKNN(verbose=True)
 
-    # pre-process config
-    print('--> config model')
+    # Pre-process config
+    print('--> Config model')
     rknn.config(mean_values=[123.675, 116.28, 103.53], std_values=[58.395, 58.395, 58.395])
     print('done')
 
-    # Load pytorch model
+    # Load model
     print('--> Loading model')
     ret = rknn.load_pytorch(model=model, input_size_list=input_size_list)
     if ret != 0:
-        print('Load pytorch model failed!')
+        print('Load model failed!')
         exit(ret)
     print('done')
 
@@ -67,29 +67,27 @@ if __name__ == '__main__':
     print('--> Building model')
     ret = rknn.build(do_quantization=True, dataset='./dataset.txt')
     if ret != 0:
-        print('Build pytorch failed!')
+        print('Build model failed!')
         exit(ret)
     print('done')
 
     # Export rknn model
-    print('--> Export RKNN model')
+    print('--> Export rknn model')
     ret = rknn.export_rknn('./resnet_18.rknn')
     if ret != 0:
-        print('Export resnet_18.rknn failed!')
+        print('Export rknn model failed!')
         exit(ret)
     print('done')
-
-    ret = rknn.load_rknn('./resnet_18.rknn')
 
     # Set inputs
     img = cv2.imread('./space_shuttle_224.jpg')
     img = cv2.cvtColor(img, cv2.COLOR_BGR2RGB)
 
-    # init runtime environment
+    # Init runtime environment
     print('--> Init runtime environment')
     ret = rknn.init_runtime()
     if ret != 0:
-        print('Init runtime environment failed')
+        print('Init runtime environment failed!')
         exit(ret)
     print('done')
 
@@ -97,7 +95,6 @@ if __name__ == '__main__':
     print('--> Running model')
     outputs = rknn.inference(inputs=[img])
     np.save('./pytorch_resnet18_0.npy', outputs[0])
-
     show_outputs(softmax(np.array(outputs[0][0])))
     print('done')
 

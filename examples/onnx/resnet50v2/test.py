@@ -61,7 +61,7 @@ def show_progress(blocknum, blocksize, totalsize):
 if __name__ == '__main__':
 
     # Create RKNN object
-    rknn = RKNN()
+    rknn = RKNN(verbose=True)
 
     # If resnet50v2 does not exist, download it.
     # Download address:
@@ -79,7 +79,8 @@ if __name__ == '__main__':
             exit(-1)
         print('done')
 
-    # print('--> config model')
+    # pre-process config
+    print('--> config model')
     rknn.config(mean_values=[123.675, 116.28, 103.53], std_values=[58.82, 58.82, 58.82])
     print('done')
 
@@ -87,7 +88,7 @@ if __name__ == '__main__':
     print('--> Loading model')
     ret = rknn.load_onnx(model=ONNX_MODEL)
     if ret != 0:
-        print('Load resnet50v2 failed!')
+        print('Load model failed!')
         exit(ret)
     print('done')
 
@@ -95,15 +96,15 @@ if __name__ == '__main__':
     print('--> Building model')
     ret = rknn.build(do_quantization=True, dataset='./dataset.txt')
     if ret != 0:
-        print('Build resnet50 failed!')
+        print('Build model failed!')
         exit(ret)
     print('done')
 
     # Export rknn model
-    print('--> Export RKNN model')
+    print('--> Export rknn model')
     ret = rknn.export_rknn(RKNN_MODEL)
     if ret != 0:
-        print('Export resnet50v2.rknn failed!')
+        print('Export rknn model failed!')
         exit(ret)
     print('done')
 
@@ -111,11 +112,11 @@ if __name__ == '__main__':
     img = cv2.imread('./dog_224x224.jpg')
     img = cv2.cvtColor(img, cv2.COLOR_BGR2RGB)
 
-    # init runtime environment
+    # Init runtime environment
     print('--> Init runtime environment')
     ret = rknn.init_runtime()
     if ret != 0:
-        print('Init runtime environment failed')
+        print('Init runtime environment failed!')
         exit(ret)
     print('done')
 
@@ -130,4 +131,3 @@ if __name__ == '__main__':
     print('done')
 
     rknn.release()
-

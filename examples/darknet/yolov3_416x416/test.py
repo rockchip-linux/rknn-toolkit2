@@ -22,20 +22,18 @@ if __name__ == '__main__':
     download_yolov3_weight(WEIGHT_PATH)
 
     # Create RKNN object
-    rknn = RKNN()
-    
-    # pre-process config
-    print('--> config model')
+    rknn = RKNN(verbose=True)
+
+    # Pre-process config
+    print('--> Config model')
     rknn.config(mean_values=[0, 0, 0], std_values=[255, 255, 255])
     print('done')
 
-    # Load tensorflow model
+    # Load model
     print('--> Loading model')
-    ret = rknn.load_darknet(model=MODEL_PATH,
-                            weight=WEIGHT_PATH,
-                            )
+    ret = rknn.load_darknet(model=MODEL_PATH, weight=WEIGHT_PATH)
     if ret != 0:
-        print('Load yolov3 failed! Ret = {}'.format(ret))
+        print('Load model failed!')
         exit(ret)
     print('done')
 
@@ -43,15 +41,15 @@ if __name__ == '__main__':
     print('--> Building model')
     ret = rknn.build(do_quantization=True, dataset=DATASET)
     if ret != 0:
-        print('Build yolov3 failed!')
+        print('Build model failed!')
         exit(ret)
     print('done')
 
     # Export rknn model
-    print('--> Export RKNN model')
+    print('--> Export rknn model')
     ret = rknn.export_rknn(RKNN_MODEL_PATH)
     if ret != 0:
-        print('Export yolov3.rknn failed!')
+        print('Export rknn model failed!')
         exit(ret)
     print('done')
 
@@ -59,10 +57,11 @@ if __name__ == '__main__':
     img = cv2.imread(im_file)
     img = cv2.cvtColor(img, cv2.COLOR_BGR2RGB)
 
+    # Init runtime environment
     print('--> Init runtime environment')
     ret = rknn.init_runtime()
     if ret != 0:
-        print('Init runtime environment failed')
+        print('Init runtime environment failed!')
         exit(ret)
     print('done')
 
@@ -70,7 +69,6 @@ if __name__ == '__main__':
     print('--> Running model')
     outputs = rknn.inference(inputs=[img])
     print('done')
-
 
     input0_data = outputs[0]
     np.save('./darknet_yolov3_416x416_0.npy', input0_data)
@@ -98,4 +96,3 @@ if __name__ == '__main__':
     cv2.imwrite('result.jpg', image)
 
     rknn.release()
-

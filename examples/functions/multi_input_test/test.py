@@ -7,13 +7,13 @@ if __name__ == '__main__':
     # Create RKNN object
     rknn = RKNN(verbose=True)
 
-    # pre-process config
-    print('--> config model')
+    # Pre-process config
+    print('--> Config model')
     rknn.config(mean_values=[[127.5, 127.5, 127.5], [0, 0, 0], [0, 0, 0], [127.5]],
                 std_values=[[128, 128, 128], [1, 1, 1], [1, 1, 1], [128]])
     print('done')
 
-    # Load tensorflow model
+    # Load model
     print('--> Loading model')
     ret = rknn.load_tensorflow(tf_pb='./conv_128.pb',
                                inputs=['input1', 'input2', 'input3', 'input4'],
@@ -33,18 +33,18 @@ if __name__ == '__main__':
     print('done')
 
     # Export rknn model
-    print('--> Export RKNN model')
+    print('--> Export rknn model')
     ret = rknn.export_rknn('./conv_128.rknn')
     if ret != 0:
-        print('Export rknn failed!')
+        print('Export rknn model failed!')
         exit(ret)
     print('done')
 
-    # init runtime environment
+    # Init runtime environment
     print('--> Init runtime environment')
     ret = rknn.init_runtime()
     if ret != 0:
-        print('Init runtime environment failed')
+        print('Init runtime environment failed!')
         exit(ret)
     print('done')
 
@@ -64,9 +64,7 @@ if __name__ == '__main__':
     outputs = rknn.inference(inputs=[img, input2, input3, img_gray])
     np.save('./functions_multi_input_test_0.npy', outputs[0])
     print('done')
-    outputs[0] = outputs[0].reshape((1,-1))
+    outputs[0] = outputs[0].reshape((1, -1))
     print('inference result: ', outputs)
 
-
     rknn.release()
-

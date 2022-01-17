@@ -30,20 +30,19 @@ def show_perfs(perfs):
 if __name__ == '__main__':
 
     # Create RKNN object
-    rknn = RKNN()
+    rknn = RKNN(verbose=True)
 
-    # pre-process config
-    print('--> config model')
+    # Pre-process config
+    print('--> Config model')
     rknn.config(mean_values=[103.94, 116.78, 123.68], std_values=[58.82, 58.82, 58.82], quant_img_RGB2BGR=True)
     print('done')
 
-    # Load tensorflow model
+    # Load model
     print('--> Loading model')
     ret = rknn.load_caffe(model='../../caffe/mobilenet_v2/mobilenet_v2.prototxt',
-                          proto='caffe',
                           blobs='../../caffe/mobilenet_v2/mobilenet_v2.caffemodel')
     if ret != 0:
-        print('Load mobilenet_v2 failed!')
+        print('Load model failed!')
         exit(ret)
     print('done')
 
@@ -51,15 +50,15 @@ if __name__ == '__main__':
     print('--> Building model')
     ret = rknn.build(do_quantization=True, dataset='./dataset.txt', rknn_batch_size=4)
     if ret != 0:
-        print('Build mobilenet_v2 failed!')
+        print('Build model failed!')
         exit(ret)
     print('done')
 
     # Export rknn model
-    print('--> Export RKNN model')
+    print('--> Export rknn model')
     ret = rknn.export_rknn('./mobilenet_v2.rknn')
     if ret != 0:
-        print('Export mobilenet_v2.rknn failed!')
+        print('Export rknn model failed!')
         exit(ret)
     print('done')
 
@@ -69,11 +68,11 @@ if __name__ == '__main__':
     img = np.expand_dims(img, 0)
     img = np.concatenate((img, img, img, img), axis=0)
 
-    # init runtime environment
+    # Init runtime environment
     print('--> Init runtime environment')
     ret = rknn.init_runtime()
     if ret != 0:
-        print('Init runtime environment failed')
+        print('Init runtime environment failed!')
         exit(ret)
     print('done')
 

@@ -80,15 +80,16 @@ if __name__ == '__main__':
             exit(-1)
         print('done')
 
-    # print('--> config model')
-    rknn.config(mean_values=[123.68, 116.28, 103.53], std_values=[57.38, 57.38, 57.38], quantized_method='layer')
+    # Pre-process config
+    print('--> Config model')
+    rknn.config(mean_values=[123.68, 116.28, 103.53], std_values=[57.38, 57.38, 57.38])
     print('done')
 
     # Load model
     print('--> Loading model')
     ret = rknn.load_onnx(model=ONNX_MODEL)
     if ret != 0:
-        print('Load resnet50v2 failed!')
+        print('Load model failed!')
         exit(ret)
     print('done')
 
@@ -96,16 +97,15 @@ if __name__ == '__main__':
     print('--> Building model')
     ret = rknn.build(do_quantization=True, dataset='./dataset.txt')
     if ret != 0:
-        print('Build resnet50 failed!')
+        print('Build model failed!')
         exit(ret)
     print('done')
 
-    # Snapshot model
+    # Accuracy analysis
     print('--> Accuracy analysis')
-    inputs_file = ['./dog_224x224.jpg']
-    ret = rknn.accuracy_analysis(inputs=inputs_file, output_dir='./snapshot')
+    ret = rknn.accuracy_analysis(inputs=['./dog_224x224.jpg'], output_dir='./snapshot')
     if ret != 0:
-        print('Analysis mobilenet_v1 failed!')
+        print('Accuracy analysis failed!')
         exit(ret)
     print('done')
 
@@ -118,4 +118,3 @@ if __name__ == '__main__':
     show_outputs(output)
 
     rknn.release()
-

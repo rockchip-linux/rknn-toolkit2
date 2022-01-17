@@ -24,18 +24,18 @@ def show_outputs(outputs):
 if __name__ == '__main__':
 
     # Create RKNN object
-    rknn = RKNN()
+    rknn = RKNN(verbose=True)
 
-    # pre-process config
-    print('--> config model')
+    # Pre-process config
+    print('--> Config model')
     rknn.config(mean_values=[128, 128, 128], std_values=[128, 128, 128])
     print('done')
 
-    # Load tensorflow model
+    # Load model
     print('--> Loading model')
     ret = rknn.load_tflite(model='mobilenet_v1_1.0_224.tflite')
     if ret != 0:
-        print('Load mobilenet_v1 failed!')
+        print('Load model failed!')
         exit(ret)
     print('done')
 
@@ -43,15 +43,15 @@ if __name__ == '__main__':
     print('--> Building model')
     ret = rknn.build(do_quantization=True, dataset='./dataset.txt')
     if ret != 0:
-        print('Build mobilenet_v1 failed!')
+        print('Build model failed!')
         exit(ret)
     print('done')
 
     # Export rknn model
-    print('--> Export RKNN model')
+    print('--> Export rknn model')
     ret = rknn.export_rknn('./mobilenet_v1.rknn')
     if ret != 0:
-        print('Export mobilenet_v1.rknn failed!')
+        print('Export rknn model failed!')
         exit(ret)
     print('done')
 
@@ -60,11 +60,11 @@ if __name__ == '__main__':
     img = cv2.cvtColor(img, cv2.COLOR_BGR2RGB)
     img = np.expand_dims(img, 0)
 
-    # init runtime environment
+    # Init runtime environment
     print('--> Init runtime environment')
     ret = rknn.init_runtime()
     if ret != 0:
-        print('Init runtime environment failed')
+        print('Init runtime environment failed!')
         exit(ret)
     print('done')
 
