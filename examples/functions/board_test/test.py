@@ -29,7 +29,7 @@ if __name__ == '__main__':
     # Pre-process config
     print('--> Config model')
     rknn.config(mean_values=[103.94, 116.78, 123.68], std_values=[58.82, 58.82, 58.82],
-                quant_img_RGB2BGR=True, target_platform='rk3566')
+                quant_img_RGB2BGR=True, target_platform='rk3588')
     print('done')
 
     # Load model
@@ -72,13 +72,20 @@ if __name__ == '__main__':
     # Set inputs
     img = cv2.imread('./dog_224x224.jpg')
 
+    print('--> List devices')
+    rknn.list_devices()
+
     # Init runtime environment
     print('--> Init runtime environment')
-    ret = rknn.init_runtime(target='rk3566', perf_debug=True, eval_mem=True)
+    ret = rknn.init_runtime(target='rk3588', perf_debug=True, eval_mem=True)
     if ret != 0:
         print('Init runtime environment failed!')
         exit(ret)
     print('done')
+
+    print('--> Get sdk version')
+    sdk_version = rknn.get_sdk_version()
+    print(sdk_version)
 
     # eval perf
     print('--> Eval perf')
@@ -97,7 +104,7 @@ if __name__ == '__main__':
 
     # Accuracy analysis
     print('--> Accuracy analysis')
-    ret = rknn.accuracy_analysis(inputs=['./dog_224x224.jpg'], output_dir='./snapshot', target='rk3566')
+    ret = rknn.accuracy_analysis(inputs=['./dog_224x224.jpg'], output_dir='./snapshot', target='rk3588')
     if ret != 0:
         print('Accuracy analysis failed!')
         exit(ret)

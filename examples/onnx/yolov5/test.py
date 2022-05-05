@@ -231,7 +231,7 @@ if __name__ == '__main__':
 
     # pre-process config
     print('--> Config model')
-    rknn.config(mean_values=[[0, 0, 0]], std_values=[[255, 255, 255]], output_tensor_type='int8')
+    rknn.config(mean_values=[[0, 0, 0]], std_values=[[255, 255, 255]])
     print('done')
 
     # Load ONNX model
