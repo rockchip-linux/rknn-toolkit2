@@ -81,6 +81,6 @@ if __name__ == '__main__':
     model = RestNet18()
     model.eval()
 
-    # export onnx (rknn-toolkit2 only support opset_version=12)
+    # export onnx (rknn-toolkit2 only support to opset_version=12)
     x = torch.randn((1, 3, 224, 224))
     torch.onnx.export(model, x, './resnet18.onnx', opset_version=12, input_names=['input'], output_names=['output'])

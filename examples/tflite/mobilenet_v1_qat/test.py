@@ -28,7 +28,7 @@ if __name__ == '__main__':
 
     # Pre-process config
     print('--> Config model')
-    rknn.config(mean_values=[0, 0, 0], std_values=[1, 1, 1])
+    rknn.config(mean_values=[128, 128, 128], std_values=[128, 128, 128])
     print('done')
 
     # Load model

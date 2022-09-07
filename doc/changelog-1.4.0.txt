@@ -1,0 +1,123 @@
+2022-8-20
+版本: v1.4.0:
+更新内容:
+1. 升级相关依赖包到主流版本
+2. 添加更多2/3/5维度的Op支持
+3. 更新config/init_runtime等接口
+4. 更新LSTM等Op支持
+5. 添加yuv输入支持
+6. 更新QAT模型支持
+
+2022-7-2
+版本: v1.3.4b5:
+更新内容:
+1. rknn-toolkit2:
+    1) optimize_onnx接口
+        a. 在设置optimization_level=2时，关闭conv+add融合。
+        b. 保留BatchNormalize算子带的量化参数。
+    2) RK3588屏蔽NPU直接输出NHWC layout的支持， RK3566/RV1106保留该功能。
+2.  C API:
+    1) RK3588/RK3566/RV1106支持传入一个包含rknn模型的大文件路径，rknn_init接口设置包含偏移和真实rknn模型大小的rknn_init_extend结构体指针。
+
+
+2021-4-22
+版本: v1.3.0:
+更新内容:
+1. 新功能: python3.8/ubuntu20.04 平台支持
+2. 修复一些已知的bug:
+    1) 修复了一些图优化和量化bug
+
+2021-4-7
+版本: v1.2.5:
+更新内容:
+1. 新功能: rv1103/rv1109平台的支持.
+2. 修复一些已知的bug:
+    1) 修复了一些QAT模型转换问题
+    2) 修复了一些图优化bug
+
+
+2021-1-27
+版本: v1.2.1-beta:
+更新内容:
+1. 新功能: 多batch的NHWC格式输入时,在H维度,有效元素个数与实际内存中的元素个数不一致时,支持H方向实际元素个数按照h_stride设置.
+2. 修复一些已知的bug:
+    1) LSTM算子内部变量重名的问题.
+
+
+2021-1-12
+版本：v1.2.0
+更新内容:
+1. 新功能: rk3588平台的支持; rknn模型加密支持; tensorflow/tflite/pytorch量化感知模型支持; 增加了一些新的 op 支持: InstanceNormalization, Swish, Conv1D等（详见 op support list）；增加了参数量计算以及算力分析
+2. examples 更新：增加了从 pytorch 转 onnx 的转换 demo：resnet18_export_onnx ；增加了pytorch量化感知模型的加载demo：resnet18_qat demo；增加了模型加密功能：添加了3588平台 rknn 转换 demo
+3. 接口更改：移除了 config，load_caffe，load_tensorflow等接口的一些不必要的参数设置，更新了 eval_perf 接口，详细改动见Uer_Guide文档
+4. 修复一些已知的bug:
+    1) 修复了一些模型无法转换rknn的问题
+    2) 修复了一些图优化bug
+    3) 修复了一些模型推理结果错误的问题
+    4) 修复了 pytorch、tflite 某些 op 转换失败的问题
+5. 优化: 精度分析耗时优化; 模型转换和量化耗时优化
+
+
+2021-8-12
+版本：v1.1.0
+更新内容:
+1. 新功能: LSTM，GRU的支持；增加了accuracy_analysis对比项目；增加了一些op支持：caffe hardswish；onnx gather,reduceMax等op；更新了更全面的图优化规则。
+2. examples更新：增加了yolov5的demo
+3. 修复一些已知的bug：
+    1）修复了一些模拟器的推理结果错误问题
+    2）修复了一些图优化bug
+    3）修复了一些大模型无法转换rknn的问题
+    4）修复了多输入的转换和推理bug
+4. 更新了文档，更新了OP支持列表
+
+2021-6-30
+版本：v1.1.0beta
+更新内容:
+1. 新功能: 混合量化功能(支持自定义是否量化以及量化参数修改)；完善了 accuracy_analysis 对比功能（包括连板对比结果)
+2. examples更新：增加了常用接口的demo示例：accuracy_analysis、batch_size、hybrid_quant、load_quantized_model、mmse、multi_input_test
+3. 修复一些已知的bug：
+    1）修复了一些int8/fp16模型的转换问题以及op精度问题
+    2）修复了一些图优化bug，修复了一些依赖的版本问题
+4. 更新了文档，更新了OP支持列表
+
+
+2021-4-30
+版本：v1.0.0
+更新内容:
+1. 新功能: 卷积类的per channel量化功能；添加了config中custom_inf的模型信息设置、img_quant_RGB2BGR设置；添加了eval performance的性能测试接口；增加了版本打印功能
+2. OP支持：1) 添加了Caffe新OP支持：Power/Tile/Eltwise(Max)/去除了normalize维度的限制; 2) 添加了onnx新OP支持:HardSigmoid/Pow/Tile
+3. 修复一些已知的bug：
+    1) 修复了caffe FC的输出shape以及name的错误
+    2) 优化了mmse的量化性能
+    3）修复caffe的Pooling层的输出shape计算错误
+    4）修复了caffe slice丢弃了其中一个输出的inference bug
+    5）修复了一些模型优化的bug
+4. 弃置了reorder_channel的config设置，由用户自行保证inference输入数据的channel正确性
+5. 更新了文档，更新了OP支持列表
+
+
+2021-4-2
+版本：v0.7.0
+更新内容:
+1. 新功能: 新的量化算法支持(mmse), 添加支持tensorflow的预量化模型导入
+2. 添加了Caffe新OP支持：relu6/ConvolutionDepthwise/Transpose/reorg
+3. 修复一些已知的bug:
+    1) 增加concat的非channel维度，非4维输入的支持
+    2) 修复了第一层是scale的预处理bug
+    3）更新了onnxruntime==1.7.0的版本
+4. 更新了文档，更新了OP支持列表
+
+2021-3-1
+版本：v0.6.0
+更新内容:
+1. 新功能: caffe load API添加指定输入name的接口；添加了caffe lrn(WithinChannel)的支持
+2. 添加了Caffe新OP支持：crop/flatten/normalize/proposal/reduction
+3. 添加了onnx/pytorch/tensorflow/darknet/tflite新OP支持
+4. 移除了aciq以及Kl散度量化功能
+5. 修复一些已知的bug:
+    1) 最后一层是reshape转换bug；
+    2) 修复了caffe中InnerProduct随机生成blob的bug；
+    3) 修复了过大的size导致GlobalAvgPool GlobalMaxPool crash的问题;
+    4) 修复了第一层是RoIpooling的维度错误；
+    5) 修复了SSD设备端推理错误的问题等。
+6. 更新了文档，增加了OP支持列表

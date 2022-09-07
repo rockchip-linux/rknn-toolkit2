@@ -115,6 +115,7 @@ if __name__ == '__main__':
     outputClasses = outputs[1].reshape((1, NUM_RESULTS, NUM_CLASSES))
     np.save('./tensorflow_ssd_mobilenet_v1_1.npy', outputs[0])
     candidateBox = np.zeros([2, NUM_RESULTS], dtype=int)
+    classScore = [-1000.0] * NUM_RESULTS
     vaildCnt = 0
 
     box_priors = load_box_priors()
@@ -136,6 +137,7 @@ if __name__ == '__main__':
         if topClassScore > 0.4:
             candidateBox[0][vaildCnt] = i
             candidateBox[1][vaildCnt] = topClassScoreIndex
+            classScore[vaildCnt] = topClassScore
             vaildCnt += 1
 
     # calc position
@@ -198,7 +200,7 @@ if __name__ == '__main__':
         xmax = max(0.0, min(1.0, predictions[0][n][3])) * INPUT_SIZE
         ymax = max(0.0, min(1.0, predictions[0][n][2])) * INPUT_SIZE
 
-        print("%d @ (%d, %d) (%d, %d) score=%f" % (topClassScoreIndex, xmin, ymin, xmax, ymax, topClassScore))
+        print("%d @ (%d, %d) (%d, %d) score=%f" % (candidateBox[1][i], xmin, ymin, xmax, ymax, classScore[i]))
         cv2.rectangle(orig_img, (int(xmin), int(ymin)), (int(xmax), int(ymax)),
                       (random.random()*255, random.random()*255, random.random()*255), 3)
 
