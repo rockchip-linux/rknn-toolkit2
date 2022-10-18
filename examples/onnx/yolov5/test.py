@@ -184,7 +184,6 @@ def yolov5_post_process(input_data):
 
 def draw(image, boxes, scores, classes):
     """Draw the boxes on the image.
-
     # Argument:
         image: original image.
         boxes: ndarray, boxes of objects.
@@ -193,17 +192,17 @@ def draw(image, boxes, scores, classes):
         all_classes: all classes name.
     """
     for box, score, cl in zip(boxes, scores, classes):
-        top, left, right, bottom = box
+        left, top, right, bottom = box
         print('class: {}, score: {}'.format(CLASSES[cl], score))
-        print('box coordinate left,top,right,down: [{}, {}, {}, {}]'.format(top, left, right, bottom))
-        top = int(top)
+        print('box coordinate left,top,right,bottom: [{}, {}, {}, {}]'.format(left, top, right, bottom))
         left = int(left)
+        top = int(top)
         right = int(right)
         bottom = int(bottom)
 
-        cv2.rectangle(image, (top, left), (right, bottom), (255, 0, 0), 2)
+        cv2.rectangle(image, (left, top), (right, bottom), (255, 0, 0), 2)
         cv2.putText(image, '{0} {1:.2f}'.format(CLASSES[cl], score),
-                    (top, left - 6),
+                    (left, top - 6),
                     cv2.FONT_HERSHEY_SIMPLEX,
                     0.6, (0, 0, 255), 2)
 
