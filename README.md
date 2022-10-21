@@ -28,6 +28,9 @@ Note:
 # Feedback and Community Suport
 Two ways are followed:
 - [Issues](https://github.com/rockchip-linux/rknn-toolkit2/issues) 
-- QQ Group Chat: 1025468710 **welcome for developer**
-<p align="center"><img width="200" height="200"  src="https://github.com/rockchip-linux/rknn-toolkit2/blob/master/QQGroupQRCode.png"/></p>
-<p align="center">QQ Group Chat</p>
+- QQ Group Chat: 1025468710 (full, please join group 2)
+- QQ Group Chat2: 547021958
+<center class="half">
+  <img width="200" height="200"  src="https://github.com/rockchip-linux/rknn-toolkit/blob/master/QQGroupQRCode.png" title="QQ Group Chat"/>
+  <img width="200" height="200"  src="https://github.com/rockchip-linux/rknn-toolkit/blob/master/QQGroup2QRCode.png" title="QQ Group Chat2"/>
+</center>
