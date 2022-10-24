@@ -25,7 +25,7 @@ Note:
 - Currently only support on Ubuntu 18.04 python 3.6 / Ubuntu 20.04 python 3.8
 - Latest version:1.4.0(Release version)
 
-# Feedback and Community Suport
+# Feedback and Community Support
 Two ways are followed:
 - [Issues](https://github.com/rockchip-linux/rknn-toolkit2/issues) 
 - QQ Group Chat: 1025468710 (full, please join group 2)
