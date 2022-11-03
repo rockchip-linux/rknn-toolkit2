@@ -310,8 +310,8 @@ if __name__ == '__main__':
     if boxes is not None:
         draw(img_1, boxes, scores, classes)
     # show output
-    # cv2.imshow("post process result", img_1)
-    # cv2.waitKey(0)
-    # cv2.destroyAllWindows()
+    cv2.imshow("post process result", img_1)
+    cv2.waitKey(0)
+    cv2.destroyAllWindows()
 
     rknn.release()
