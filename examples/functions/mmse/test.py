@@ -61,11 +61,11 @@ if __name__ == '__main__':
 
     f = open('./snapshot/error_analysis.txt')
     lines = f.readlines()
-    cos = lines[-1].split()[1]
-    if float(cos) >= 0.965:
+    cos = lines[-1].split()[2]
+    if float(cos) >= 0.963:
         print('cos = {}, mmse work!'.format(cos))
     else:
-        print('cos = {} < 0.965, mmse abnormal!'.format(cos))
+        print('cos = {} < 0.963, mmse abnormal!'.format(cos))
     f.close()
 
     # Set inputs

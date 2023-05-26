@@ -89,7 +89,7 @@ if __name__ == '__main__':
 
     # eval perf
     print('--> Eval perf')
-    rknn.eval_perf(inputs=[img])
+    rknn.eval_perf()
 
     # eval perf
     print('--> Eval memory')

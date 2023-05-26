@@ -17,8 +17,10 @@ def get_host():
                 device_compatible_str = f.read()
                 if 'rk3588' in device_compatible_str:
                     host = 'RK3588'
+                elif 'rk3562' in device_compatible_str:
+                    host = 'RK3562'
                 else:
-                    host = 'RK356x'
+                    host = 'RK3566_RK3568'
         except IOError:
             print('Read device node {} failed.'.format(DEVICE_COMPATIBLE_NODE))
             exit(-1)
@@ -28,8 +30,9 @@ def get_host():
 
 INPUT_SIZE = 224
 
-RK356X_RKNN_MODEL = 'resnet18_for_rk356x.rknn'
+RK3566_RK3568_RKNN_MODEL = 'resnet18_for_rk3566_rk3568.rknn'
 RK3588_RKNN_MODEL = 'resnet18_for_rk3588.rknn'
+RK3562_RKNN_MODEL = 'resnet18_for_rk3562.rknn'
 
 
 def show_top5(result):
@@ -55,8 +58,10 @@ def show_top5(result):
 if __name__ == '__main__':
 
     host_name = get_host()
-    if host_name == 'RK356x':
-        rknn_model = RK356X_RKNN_MODEL
+    if host_name == 'RK3566_RK3568':
+        rknn_model = RK3566_RK3568_RKNN_MODEL
+    elif host_name == 'RK3562':
+        rknn_model = RK3562_RKNN_MODEL
     elif host_name == 'RK3588':
         rknn_model = RK3588_RKNN_MODEL
     else:

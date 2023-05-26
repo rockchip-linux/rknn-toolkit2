@@ -50,18 +50,18 @@ if __name__ == '__main__':
 
     # Set inputs
     img = cv2.imread('./dog_128x128.jpg')
-    img = cv2.cvtColor(img, cv2.COLOR_BGR2RGB)
+    img = cv2.cvtColor(img, cv2.COLOR_BGR2RGB)          # nhwc
 
     img_gray = cv2.imread('./dog_128x128_gray.png', cv2.IMREAD_GRAYSCALE)
-    img_gray = np.expand_dims(img_gray, -1)
+    img_gray = np.expand_dims(img_gray, -1)             # nhwc
 
-    input2 = np.load('input2.npy').astype('float32')
+    input2 = np.load('input2.npy').astype('float32')    # nchw
 
-    input3 = np.load('input3.npy').astype('float32')
+    input3 = np.load('input3.npy').astype('float32')    # nchw
 
     # Inference
     print('--> Running model')
-    outputs = rknn.inference(inputs=[img, input2, input3, img_gray])
+    outputs = rknn.inference(inputs=[img, input2, input3, img_gray], data_format=['nhwc', 'nchw', 'nchw', 'nhwc'])
     np.save('./functions_multi_input_test_0.npy', outputs[0])
     print('done')
     outputs[0] = outputs[0].reshape((1, -1))

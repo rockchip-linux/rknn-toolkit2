@@ -309,9 +309,6 @@ if __name__ == '__main__':
     img_1 = cv2.cvtColor(img, cv2.COLOR_RGB2BGR)
     if boxes is not None:
         draw(img_1, boxes, scores, classes)
-    # show output
-    # cv2.imshow("post process result", img_1)
-    # cv2.waitKey(0)
-    # cv2.destroyAllWindows()
+        cv2.imwrite('result.jpg', img_1)
 
     rknn.release()

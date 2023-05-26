@@ -24,4 +24,6 @@ The directory structure of examples is as follows:
     ├── multi_input_test                # multi-input float model
     ├── hybrid_quant                    # how to use hybrid-quantization function
     ├── mmse                            # how to use mmse function
+    ├── model_pruning                   # how to use model_pruning function
+    ├── dynamic_input                   # how to use dynamic_input function
     └── board_test                      # how to connect the board for debugging
