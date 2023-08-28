@@ -7,8 +7,9 @@ import numpy as np
 import cv2
 from rknn.api import RKNN
 
-ONNX_MODEL = 'yolov5s.onnx'
-RKNN_MODEL = 'yolov5s.rknn'
+# Model from https://github.com/airockchip/rknn_model_zoo
+ONNX_MODEL = 'yolov5s_relu.onnx'
+RKNN_MODEL = 'yolov5s_relu.rknn'
 IMG_PATH = './bus.jpg'
 DATASET = './dataset.txt'
 
@@ -27,9 +28,6 @@ CLASSES = ("person", "bicycle", "car", "motorbike ", "aeroplane ", "bus ", "trai
            "oven ", "toaster", "sink", "refrigerator ", "book", "clock", "vase", "scissors ", "teddy bear ", "hair drier", "toothbrush ")
 
 
-def sigmoid(x):
-    return 1 / (1 + np.exp(-x))
-
 
 def xywh2xyxy(x):
     # Convert [x, y, w, h] to [x1, y1, x2, y2]
@@ -46,12 +44,12 @@ def process(input, mask, anchors):
     anchors = [anchors[i] for i in mask]
     grid_h, grid_w = map(int, input.shape[0:2])
 
-    box_confidence = sigmoid(input[..., 4])
+    box_confidence = input[..., 4]
     box_confidence = np.expand_dims(box_confidence, axis=-1)
 
-    box_class_probs = sigmoid(input[..., 5:])
+    box_class_probs = input[..., 5:]
 
-    box_xy = sigmoid(input[..., :2])*2 - 0.5
+    box_xy = input[..., :2]*2 - 0.5
 
     col = np.tile(np.arange(0, grid_w), grid_w).reshape(-1, grid_w)
     row = np.tile(np.arange(0, grid_h).reshape(-1, 1), grid_h)
@@ -61,7 +59,7 @@ def process(input, mask, anchors):
     box_xy += grid
     box_xy *= int(IMG_SIZE/grid_h)
 
-    box_wh = pow(sigmoid(input[..., 2:4])*2, 2)
+    box_wh = pow(input[..., 2:4]*2, 2)
     box_wh = box_wh * anchors
 
     box = np.concatenate((box_xy, box_wh), axis=-1)
@@ -240,7 +238,7 @@ if __name__ == '__main__':
 
     # pre-process config
     print('--> Config model')
-    rknn.config(mean_values=[[0, 0, 0]], std_values=[[255, 255, 255]])
+    rknn.config(mean_values=[[0, 0, 0]], std_values=[[255, 255, 255]], target_platform='rk3566')
     print('done')
 
     # Load ONNX model
@@ -270,7 +268,6 @@ if __name__ == '__main__':
     # Init runtime environment
     print('--> Init runtime environment')
     ret = rknn.init_runtime()
-    # ret = rknn.init_runtime('rk3566')
     if ret != 0:
         print('Init runtime environment failed!')
         exit(ret)

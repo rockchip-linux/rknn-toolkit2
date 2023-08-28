@@ -9,7 +9,8 @@ The directory structure of examples is as follows:
 ├── pytorch
 │   ├── resnet18                        # resnet18 float model
 │   ├── resnet18_qat                    # resnet18 QAT model
-│   └── resnet18_export_onnx            # how to export onnx model from pytorch
+│   ├── resnet18_export_onnx            # how to export onnx model from pytorch
+│   └── yolov5                          # yolov5 float model
 ├── tensorflow
 │   ├── ssd_mobilenet_v1                # ssd_mobilenet_v1 float model
 │   └── inception_v3_qat                # inception_v3 QAT model
@@ -21,9 +22,10 @@ The directory structure of examples is as follows:
 └── functions
     ├── accuracy_analysis               # how to use accuracy-analysis function
     ├── batch_size                      # how to expand batch for use multi-batch function
-    ├── multi_input_test                # multi-input float model
+    ├── board_test                      # how to connect the board for debugging
+    ├── dynamic_input                   # how to use dynamic_input function
+    ├── gen_cpp_rknn_deploy_demo        # how to generate c++ deployment demo when converting model
     ├── hybrid_quant                    # how to use hybrid-quantization function
     ├── mmse                            # how to use mmse function
     ├── model_pruning                   # how to use model_pruning function
-    ├── dynamic_input                   # how to use dynamic_input function
-    └── board_test                      # how to connect the board for debugging
+    └── multi_input_test                # How to convert multi-input model

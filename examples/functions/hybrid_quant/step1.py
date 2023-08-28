@@ -9,10 +9,10 @@ if __name__ == '__main__':
     
     # Pre-process config
     print('--> Config model')
-    rknn.config(mean_values=[127.5, 127.5, 127.5], std_values=[127.5, 127.5, 127.5])
+    rknn.config(mean_values=[127.5, 127.5, 127.5], std_values=[127.5, 127.5, 127.5], target_platform='rk3566')
     print('done')
 
-    # Load model
+    # Load model (from https://github.com/tensorflow/models/blob/master/research/object_detection/g3doc/tf1_detection_zoo.md  ssd_mobilenet_v2_coco)
     print('--> Loading model')
     ret = rknn.load_tensorflow(tf_pb='./ssd_mobilenet_v2.pb',
                                inputs=['FeatureExtractor/MobilenetV2/MobilenetV2/input'],

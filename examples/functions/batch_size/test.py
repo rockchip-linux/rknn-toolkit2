@@ -34,12 +34,12 @@ if __name__ == '__main__':
 
     # Pre-process config
     print('--> Config model')
-    rknn.config(mean_values=[103.94, 116.78, 123.68], std_values=[58.82, 58.82, 58.82], quant_img_RGB2BGR=True)
+    rknn.config(mean_values=[103.94, 116.78, 123.68], std_values=[58.82, 58.82, 58.82], quant_img_RGB2BGR=True, target_platform='rk3566')
     print('done')
 
-    # Load model
+    # Load model (from https://github.com/shicai/MobileNet-Caffe)
     print('--> Loading model')
-    ret = rknn.load_caffe(model='../../caffe/mobilenet_v2/mobilenet_v2.prototxt',
+    ret = rknn.load_caffe(model='../../caffe/mobilenet_v2/mobilenet_v2_deploy.prototxt',
                           blobs='../../caffe/mobilenet_v2/mobilenet_v2.caffemodel')
     if ret != 0:
         print('Load model failed!')
@@ -66,7 +66,7 @@ if __name__ == '__main__':
     img = cv2.imread('./dog_224x224.jpg')
 
     img = np.expand_dims(img, 0)
-    img = np.concatenate((img, img, img, img), axis=0)
+    img = np.concatenate((img, img, img, img), axis=0)  # the inputs data need to be merged together using np.concatenate. 
 
     # Init runtime environment
     print('--> Init runtime environment')

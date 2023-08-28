@@ -28,10 +28,10 @@ if __name__ == '__main__':
 
     # Pre-process config
     print('--> Config model')
-    rknn.config(mean_values=[128, 128, 128], std_values=[128, 128, 128])
+    rknn.config(mean_values=[128, 128, 128], std_values=[128, 128, 128], target_platform='rk3566')
     print('done')
 
-    # Load model
+    # Load model (from https://www.tensorflow.org/lite/examples/image_classification/overview?hl=zh-cn)
     print('--> Loading model')
     ret = rknn.load_tflite(model='mobilenet_v1_1.0_224_quant.tflite')
     if ret != 0:

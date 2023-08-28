@@ -22,5 +22,5 @@ RUN pip3 config set install.trusted-host mirror.baidu.com
 
 RUN python3 --version
 RUN pip3 --version
-COPY rknn_toolkit2-1.5.0+1fa95b5c-cp36-cp36m-linux_x86_64.whl rknn_toolkit2-1.5.0+1fa95b5c-cp36-cp36m-linux_x86_64.whl
-RUN pip3 install rknn_toolkit2-1.5.0+1fa95b5c-cp36-cp36m-linux_x86_64.whl
+COPY rknn_toolkit2-1.5.2+b642f30c-cp36-cp36m-linux_x86_64.whl rknn_toolkit2-1.5.2+b642f30c-cp36-cp36m-linux_x86_64.whl
+RUN pip3 install rknn_toolkit2-1.5.2+b642f30c-cp36-cp36m-linux_x86_64.whl

@@ -23,7 +23,7 @@ Note:
 # Notes
 - Currently rknn-toolkit2 is not compatible with [rknn-toolkit](https://github.com/rockchip-linux/rknn-toolkit)
 - Currently only support on Ubuntu 18.04 python 3.6 / Ubuntu 20.04 python 3.8 / Ubuntu 22.04 python 3.10
-- Latest version:1.5.0(Release version)
+- Latest version:1.5.2(Release version)
 
 # Feedback and Community Support
 - [Redmine](https://redmine.rock-chips.com) (**Feedback recommended, Please consult our sales or FAE for the redmine account**)

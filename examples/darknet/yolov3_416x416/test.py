@@ -12,6 +12,9 @@ SPAN = 3
 
 if __name__ == '__main__':
 
+    # Model from https://pjreddie.com/darknet/yolo/
+    # The yolov3.cfg changed the width & height from 608 to 416 on the basis of 
+    # https://github.com/pjreddie/darknet/blob/master/cfg/yolov3.cfg
     MODEL_PATH = './yolov3.cfg'
     WEIGHT_PATH = './yolov3.weights'
     RKNN_MODEL_PATH = './yolov3_416.rknn'
@@ -26,7 +29,7 @@ if __name__ == '__main__':
 
     # Pre-process config
     print('--> Config model')
-    rknn.config(mean_values=[0, 0, 0], std_values=[255, 255, 255])
+    rknn.config(mean_values=[0, 0, 0], std_values=[255, 255, 255], target_platform='rk3566')
     print('done')
 
     # Load model
@@ -92,7 +95,7 @@ if __name__ == '__main__':
     if boxes is not None:
         draw(image, boxes, scores, classes)
 
-    print('Save results to results.jpg!')
+    print('Save results to result.jpg!')
     cv2.imwrite('result.jpg', image)
 
     rknn.release()

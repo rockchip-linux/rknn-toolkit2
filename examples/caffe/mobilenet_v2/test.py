@@ -29,12 +29,12 @@ if __name__ == '__main__':
 
     # Pre-process config
     print('--> Config model')
-    rknn.config(mean_values=[103.94, 116.78, 123.68], std_values=[58.82, 58.82, 58.82], quant_img_RGB2BGR=True)
+    rknn.config(mean_values=[103.94, 116.78, 123.68], std_values=[58.82, 58.82, 58.82], quant_img_RGB2BGR=True, target_platform='rk3566')
     print('done')
 
-    # Load model
+    # Load model (from https://github.com/shicai/MobileNet-Caffe)
     print('--> Loading model')
-    ret = rknn.load_caffe(model='./mobilenet_v2.prototxt',
+    ret = rknn.load_caffe(model='./mobilenet_v2_deploy.prototxt',
                           blobs='./mobilenet_v2.caffemodel')
     if ret != 0:
         print('Load model failed!')

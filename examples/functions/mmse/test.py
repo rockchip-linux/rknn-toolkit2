@@ -28,13 +28,13 @@ if __name__ == '__main__':
 
     # Pre-process config
     print('--> Config model')
-    rknn.config(mean_values=[128, 128, 128], std_values=[128, 128, 128],
+    rknn.config(mean_values=[128, 128, 128], std_values=[128, 128, 128], target_platform='rk3566',
                 quantized_method='layer', quantized_algorithm='mmse')
     print('done')
 
-    # Load model
+    # Load model (from https://github.com/tensorflow/models/blob/master/research/slim/nets/mobilenet_v1.md)
     print('--> Loading model')
-    ret = rknn.load_tensorflow(tf_pb='mobilenet_v1.pb',
+    ret = rknn.load_tensorflow(tf_pb='mobilenet_v1_1.0_224_frozen.pb',
                                inputs=['input'],
                                input_size_list=[[1, 224, 224, 3]],
                                outputs=['MobilenetV1/Logits/SpatialSqueeze'])

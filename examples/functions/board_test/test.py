@@ -32,9 +32,9 @@ if __name__ == '__main__':
                 quant_img_RGB2BGR=True, target_platform='rk3588')
     print('done')
 
-    # Load model
+    # Load model (from https://github.com/shicai/MobileNet-Caffe)
     print('--> Loading model')
-    ret = rknn.load_caffe(model='./../../caffe/mobilenet_v2/mobilenet_v2.prototxt',
+    ret = rknn.load_caffe(model='./../../caffe/mobilenet_v2/mobilenet_v2_deploy.prototxt',
                           blobs='./../../caffe/mobilenet_v2/mobilenet_v2.caffemodel')
     if ret != 0:
         print('Load model failed!')

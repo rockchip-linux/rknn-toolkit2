@@ -6,6 +6,12 @@ import torch
 import os
 
 
+def export_pytorch_model():
+    net = models.quantization.resnet18(pretrained=True, quantize=True)
+    net.eval()
+    trace_model = torch.jit.trace(net, torch.Tensor(1, 3, 224, 224))
+    trace_model.save('./resnet18_i8.pt')
+
 def show_outputs(output):
     output_sorted = sorted(output, reverse=True)
     top5_str = '\n-----TOP 5-----\n'
@@ -46,6 +52,8 @@ if __name__ == '__main__':
         exit(0)
 
     model = './resnet18_i8.pt'
+    if not os.path.exists(model):
+        export_pytorch_model()
 
     input_size_list = [[1, 3, 224, 224]]
 
@@ -54,7 +62,7 @@ if __name__ == '__main__':
 
     # Pre-process config
     print('--> Config model')
-    rknn.config(mean_values=[123.675, 116.28, 103.53], std_values=[58.395, 58.395, 58.395])
+    rknn.config(mean_values=[123.675, 116.28, 103.53], std_values=[58.395, 58.395, 58.395], target_platform='rk3566')
     print('done')
 
     # Load model

@@ -35,19 +35,20 @@ if __name__ == '__main__':
     # The multiple sets of input shapes specified by the user, to simulate the function of dynamic input.
     # Please make sure the model can be dynamic when enable 'config.dynamic_input', and shape in dynamic_input are correctly!
     dynamic_input = [
-        [[1,3,224,224]],    # set 0: [input0_224]
-        [[1,3,192,192]],    # set 1: [input0_192]
+        [[1,3,192,192]],    # set 0: [input0_192]
+        [[1,3,256,256]],    # set 1: [input0_256]
         [[1,3,160,160]],    # set 2: [input0_160]
+        [[1,3,224,224]],    # set 3: [input0_224]
     ]
 
     # Pre-process config
     print('--> Config model')
-    rknn.config(mean_values=[103.94, 116.78, 123.68], std_values=[58.82, 58.82, 58.82], quant_img_RGB2BGR=True, dynamic_input=dynamic_input)
+    rknn.config(mean_values=[103.94, 116.78, 123.68], std_values=[58.82, 58.82, 58.82], quant_img_RGB2BGR=True, target_platform='rk3566', dynamic_input=dynamic_input)
     print('done')
 
-    # Load model
+    # Load model (from https://github.com/shicai/MobileNet-Caffe)
     print('--> Loading model')
-    ret = rknn.load_caffe(model='../../caffe/mobilenet_v2/mobilenet_v2.prototxt',
+    ret = rknn.load_caffe(model='../../caffe/mobilenet_v2/mobilenet_v2_deploy.prototxt',
                           blobs='../../caffe/mobilenet_v2/mobilenet_v2.caffemodel')
     if ret != 0:
         print('Load model failed!')
@@ -95,6 +96,13 @@ if __name__ == '__main__':
     img3 = np.transpose(img3, (0,3,1,2))    # [1,3,160,160]
     outputs = rknn.inference(inputs=[img3], data_format=['nchw'])
     np.save('./functions_dynamic_input_1.npy', outputs[0])
+    show_outputs(outputs)
+
+    img4 = cv2.resize(img, (256,256))
+    img4 = np.expand_dims(img4, 0)
+    img4 = np.transpose(img4, (0,3,1,2))    # [1,3,256,256]
+    outputs = rknn.inference(inputs=[img4], data_format=['nchw'])
+    np.save('./functions_dynamic_input_2.npy', outputs[0])
     show_outputs(outputs)
     print('done')
 

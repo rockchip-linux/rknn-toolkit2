@@ -62,10 +62,10 @@ if __name__ == '__main__':
 
     # Pre-process config
     print('--> Config model')
-    rknn.config(mean_values=[127.5, 127.5, 127.5], std_values=[127.5, 127.5, 127.5])
+    rknn.config(mean_values=[127.5, 127.5, 127.5], std_values=[127.5, 127.5, 127.5], target_platform='rk3566')
     print('done')
 
-    # Load model
+    # Load model (from https://github.com/fvmassoli/Deep-Learning-SSD-Object-Detection)
     print('--> Loading model')
     ret = rknn.load_tensorflow(tf_pb='./ssd_mobilenet_v1_coco_2017_11_17.pb',
                                inputs=['Preprocessor/sub'],
@@ -204,6 +204,6 @@ if __name__ == '__main__':
         cv2.rectangle(orig_img, (int(xmin), int(ymin)), (int(xmax), int(ymax)),
                       (random.random()*255, random.random()*255, random.random()*255), 3)
 
-    cv2.imwrite("out.jpg", orig_img)
+    cv2.imwrite("result.jpg", orig_img)
 
     rknn.release()

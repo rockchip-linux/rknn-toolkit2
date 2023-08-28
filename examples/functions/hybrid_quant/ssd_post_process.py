@@ -166,7 +166,7 @@ def ssd_post_process(conf_data, loc_data, imgpath, output_dir='.'):
         draw.rectangle([(x1, text_bottom - text_height - 2 * margin), (x1 + text_width, text_bottom)], fill=color)
         draw.text((x1 + margin, text_bottom - text_height - margin), display_str, fill='black', font=font)
 
-    print('write output image: {}{}_quant.jpg'.format(output_dir, name))
+    print('write output image: result.jpg')
     np.copyto(img, np.array(img_pil))
-    cv2.imwrite("{}{}_quant.jpg".format(output_dir, name), img)
+    cv2.imwrite("result.jpg", img)
     print('write output image finished.')

@@ -161,7 +161,7 @@ if __name__ == '__main__':
 
     # Pre-process config
     print('--> Config model')
-    rknn.config(mean_values=[103.94, 116.78, 123.68], std_values=[1, 1, 1], quant_img_RGB2BGR=True)
+    rknn.config(mean_values=[103.94, 116.78, 123.68], std_values=[1, 1, 1], quant_img_RGB2BGR=True, target_platform='rk3566')
     print('done')
 
     # Load model

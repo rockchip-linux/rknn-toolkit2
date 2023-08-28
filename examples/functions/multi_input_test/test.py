@@ -10,7 +10,8 @@ if __name__ == '__main__':
     # Pre-process config
     print('--> Config model')
     rknn.config(mean_values=[[127.5, 127.5, 127.5], [0, 0, 0], [0, 0, 0], [127.5]],
-                std_values=[[128, 128, 128], [1, 1, 1], [1, 1, 1], [128]])
+                std_values=[[128, 128, 128], [1, 1, 1], [1, 1, 1], [128]],
+                target_platform='rk3566')
     print('done')
 
     # Load model
