@@ -1,0 +1,6 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <color name="title_bg">#50001631</color>
+    <color name="title_text">#06ebff</color>
+    <color name="fps_text">#001631</color>
+</resources>

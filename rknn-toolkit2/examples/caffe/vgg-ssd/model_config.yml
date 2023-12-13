@@ -1,0 +1,14 @@
+models:
+    name: deploy_rm_detection_output # 模型输出名称
+    platform: caffe                  # 原始模型使用的框架
+    prototxt_file_path: ./deploy_rm_detection_output.prototxt              # caffe的prototxt文件
+    caffemodel_file_path: ./VGG_VOC0712_SSD_300x300_iter_120000.caffemodel # caffe的caffemode文件
+    quantize: true               # 是否量化
+    dataset: ./dataset.txt       # 量化dataset文件路径（相对yml路径）
+    configs:
+      quantized_dtype: asymmetric_quantized-8 # 量化类型
+      mean_values: [103.94, 116.78, 123.68]   # rknn.config的mean_values参数
+      std_values: [1, 1, 1]                   # rknn.config的std_values参数
+      quant_img_RGB2BGR: true     # 进行RGB2BGR转换
+      quantized_algorithm: normal # 量化算法
+      quantized_method: channel   # 量化方法

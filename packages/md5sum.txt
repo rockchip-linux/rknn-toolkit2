@@ -1,3 +1,0 @@
-c54c17a4adcb6ddebf25731932acddc3  rknn_toolkit2-1.5.2+b642f30c-cp310-cp310-linux_x86_64.whl
-242ec907f24355908ce6cbf38f26f450  rknn_toolkit2-1.5.2+b642f30c-cp36-cp36m-linux_x86_64.whl
-aac7f85ebc9aabda2fa307e0d1cdaa2e  rknn_toolkit2-1.5.2+b642f30c-cp38-cp38-linux_x86_64.whl

@@ -1,0 +1,16 @@
+models:
+    name: resnet_18              # 模型输出名称
+    platform: pytorch            # 原始模型使用的框架
+    model_file_path: ./resnet18.pt # 原模型路径
+    subgraphs:                   # 描述输入输出shape等信息
+      input_size_list:
+        - 1, 3, 224, 224
+    quantize: true               # 是否量化
+    dataset: ./dataset.txt       # 量化dataset文件路径（相对yml路径）
+    configs:
+      quantized_dtype: asymmetric_quantized-8 # 量化类型
+      mean_values: [123.675, 116.28, 103.53]  # rknn.config的mean_values参数
+      std_values: [58.395, 58.395, 58.395]    # rknn.config的std_values参数
+      quant_img_RGB2BGR: false     # 不进行RGB2BGR转换
+      quantized_algorithm: normal  # 量化算法
+      quantized_method: channel    # 量化方法

@@ -1,0 +1,135 @@
+<?xml version="1.0" encoding="utf-8"?>
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="#000000" >
+
+    <SurfaceView
+        android:id="@+id/surfaceViewCamera1"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent" />
+
+    <ImageView
+        android:id="@+id/canvasView"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_gravity="center"/>
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="60dp"
+        android:background="@color/title_bg">
+
+        <TextView
+            android:id="@+id/textViewTitle"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentLeft="true"
+            android:layout_centerVertical="true"
+            android:layout_marginLeft="20dp"
+            android:text="@string/app_title"
+            android:textColor="@color/title_text"
+            android:textSize="30sp"
+            android:textStyle="bold" />
+
+        <ImageView
+            android:layout_width="201dp"
+            android:layout_height="48dp"
+            android:layout_alignParentRight="true"
+            android:layout_centerVertical="true"
+            android:layout_marginRight="20dp"
+            android:src="@drawable/img_logo" />
+    </RelativeLayout>
+
+    <LinearLayout
+        android:layout_width="230dp"
+        android:layout_height="55dp"
+        android:layout_gravity="left |top"
+        android:layout_marginLeft="20dp"
+        android:layout_marginTop="80dp"
+        android:background="@drawable/fps_bg"
+        android:orientation="horizontal">
+
+        <TextView
+            android:id="@+id/textView"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="end|bottom"
+            android:layout_marginBottom="25dp"
+            android:text="@string/powered_by_rockchip"
+            android:textAppearance="?android:attr/textAppearanceLarge"
+            android:textColor="#0099cc"
+            android:textStyle="bold"
+            android:visibility="gone" />
+
+        <TextView
+            android:id="@+id/fps_num1"
+            android:layout_width="23dp"
+            android:layout_height="45dp"
+            android:layout_gravity="center"
+            android:layout_marginLeft="15dp"
+            android:background="@drawable/num_bg"
+            android:gravity="center"
+            android:text="0"
+            android:textColor="@color/fps_text"
+            android:textSize="36sp" />
+
+        <TextView
+            android:id="@+id/fps_num2"
+            android:layout_width="23dp"
+            android:layout_height="45dp"
+            android:layout_gravity="center"
+            android:layout_marginLeft="5dp"
+            android:background="@drawable/num_bg"
+            android:gravity="center"
+            android:text="0"
+            android:textColor="@color/fps_text"
+            android:textSize="36sp" />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:layout_marginLeft="5dp"
+            android:gravity="bottom |center_horizontal"
+            android:text="."
+            android:textColor="@color/title_text"
+            android:textSize="36sp" />
+
+        <TextView
+            android:id="@+id/fps_num3"
+            android:layout_width="23dp"
+            android:layout_height="45dp"
+            android:layout_gravity="center"
+            android:layout_marginLeft="5dp"
+            android:background="@drawable/num_bg"
+            android:gravity="center"
+            android:text="0"
+            android:textColor="@color/fps_text"
+            android:textSize="36sp" />
+
+        <TextView
+            android:id="@+id/fps_num4"
+            android:layout_width="23dp"
+            android:layout_height="45dp"
+            android:layout_gravity="center"
+            android:layout_marginLeft="5dp"
+            android:background="@drawable/num_bg"
+            android:gravity="center"
+            android:text="0"
+            android:textColor="@color/fps_text"
+            android:textSize="36sp" />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:layout_marginLeft="15dp"
+            android:gravity="center"
+            android:text="FPS"
+            android:textColor="@color/title_text"
+            android:textSize="35sp" />
+
+    </LinearLayout>
+
+</FrameLayout>

@@ -1,0 +1,18 @@
+models:
+    name: ssd_mobilenet_v1_coco       # 模型输出名称
+    platform: tensorflow              # 原始模型使用的框架
+    model_file_path: ./ssd_mobilenet_v1_coco_2017_11_17.pb # 原模型路径
+    subgraphs:                        # 描述输入输出shape等信息
+      input_size_list:
+        - 1, 300, 300, 3
+      inputs:                         # 输入tensor名称
+        - Preprocessor/sub
+      outputs:                        # 输出tensor名称
+        - concat
+        - concat_1
+    quantize: True                    # 开启量化
+    dataset: ./dataset.txt            # 量化dataset文件路径（相对yml路径）
+    configs:
+      mean_values: [127.5, 127.5, 127.5]    # rknn.config的mean_values参数
+      std_values: [127.5, 127.5, 127.5]     # rknn.config的std_values参数
+      quant_img_RGB2BGR: false        # 不进行RGB2BGR转换

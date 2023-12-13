@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+    <string name="app_name">RKNN YOLO Demo</string>
+    <string name="app_title">RKNN YOLO Demo</string>
+    <string name="powered_by_rockchip">Powered by Rockchip GPADC.</string>
+    <string name="title_activity_start">RKNN YOLO Demo</string>
+    <string name="buttonCamera">YOLO Camera Demo</string>
+    <string name="buttonImage">YOLO Image Demo</string>
+</resources>

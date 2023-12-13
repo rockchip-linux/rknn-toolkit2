@@ -1,0 +1,83 @@
+import numpy as np
+import cv2
+from rknn.api import RKNN
+
+
+def show_outputs(outputs):
+    output = outputs[0][0]
+    index = sorted(range(len(output)), key=lambda k : output[k], reverse=True)
+    fp = open('./labels.txt', 'r')
+    labels = fp.readlines()
+    top5_str = 'mobilenet_v1\n-----TOP 5-----\n'
+    for i in range(5):
+        value = output[index[i]]
+        if value > 0:
+            topi = '[{:>4d}] score:{:.6f} class:"{}"\n'.format(index[i], value, labels[index[i]].strip().split(':')[-1])
+        else:
+            topi = '[  -1]: 0.0\n'
+        top5_str += topi
+    print(top5_str.strip())
+
+def softmax(outputs):
+    outputs[0] = np.exp(outputs[0])/np.sum(np.exp(outputs[0]))
+    return outputs
+
+if __name__ == '__main__':
+
+    # Create RKNN object
+    rknn = RKNN(verbose=True)
+
+    # Pre-process config
+    print('--> Config model')
+    rknn.config(mean_values=[128, 128, 128], std_values=[128, 128, 128], target_platform='rk3566',
+                quantized_method='channel', quantized_algorithm='mmse')
+    print('done')
+
+    # Load model (from https://github.com/tensorflow/models/blob/master/research/slim/nets/mobilenet_v1.md)
+    print('--> Loading model')
+    ret = rknn.load_tensorflow(tf_pb='mobilenet_v1_1.0_224_frozen.pb',
+                               inputs=['input'],
+                               input_size_list=[[1, 224, 224, 3]],
+                               outputs=['MobilenetV1/Logits/SpatialSqueeze'])
+    if ret != 0:
+        print('Load model failed!')
+        exit(ret)
+    print('done')
+
+    # Build model
+    print('--> Building model')
+    ret = rknn.build(do_quantization=True, dataset='./dataset.txt')
+    if ret != 0:
+        print('Build model failed!')
+        exit(ret)
+    print('done')
+
+    # Accuracy analysis
+    print('--> Accuracy analysis')
+    ret = rknn.accuracy_analysis(inputs=['dog_224x224.jpg'], output_dir=None)
+    if ret != 0:
+        print('Accuracy analysis failed!')
+        exit(ret)
+    print('done')
+
+    # Set inputs
+    img = cv2.imread('./dog_224x224.jpg')
+    img = cv2.cvtColor(img, cv2.COLOR_BGR2RGB)
+    img = np.expand_dims(img, 0)
+
+    # Init runtime environment
+    print('--> Init runtime environment')
+    ret = rknn.init_runtime()
+    if ret != 0:
+        print('Init runtime environment failed!')
+        exit(ret)
+    print('done')
+
+    # Inference
+    print('--> Running model')
+    outputs = rknn.inference(inputs=[img], data_format=['nhwc'])
+    np.save('./functions_quantize_algorithm_mmse_0.npy', outputs[0])
+    show_outputs(softmax(outputs))
+    print('done')
+
+    rknn.release()

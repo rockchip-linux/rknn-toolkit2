@@ -1,0 +1,10 @@
+models:
+    name: mobilenet_v1                # 模型输出名称
+    platform: tflite                  # 原始模型使用的框架
+    model_file_path: ./mobilenet_v1_1.0_224.tflite # 原模型路径
+    quantize: True                    # 开启量化
+    dataset: ./dataset.txt            # 量化dataset文件路径（相对yml路径）
+    configs:
+      mean_values: [128, 128, 128]    # rknn.config的mean_values参数
+      std_values: [128, 128, 128]     # rknn.config的std_values参数
+      quant_img_RGB2BGR: false        # 不进行RGB2BGR转换

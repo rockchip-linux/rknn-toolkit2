@@ -1,0 +1,16 @@
+models:
+    name: inception_v3_quant_frozen   # 模型输出名称
+    platform: tensorflow              # 原始模型使用的框架
+    model_file_path: ./inception_v3_quant_frozen.pb # 原模型路径
+    subgraphs:                        # 描述输入输出shape等信息
+      input_size_list:
+        - 1, 299, 299, 3
+      inputs:                         # 输入tensor名称
+        - input
+      outputs:                        # 输出tensor名称
+        - InceptionV3/Logits/SpatialSqueeze
+    quantize: false                   # QAT已经量化过，不需要再量化
+    configs:
+      mean_values: [104, 117, 123]    # rknn.config的mean_values参数
+      std_values: [128, 128, 128]     # rknn.config的std_values参数
+      quant_img_RGB2BGR: false        # 不进行RGB2BGR转换

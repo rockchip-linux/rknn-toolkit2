@@ -1,0 +1,40 @@
+bootstrap_go_package {
+    name: "soong-librknnrt",
+    pkgPath: "android/soong/librknnrt",
+    deps: [
+        "blueprint",
+        "blueprint-pathtools",
+        "soong",
+        "soong-android",
+        "soong-cc",
+        "soong-genrule",
+    ],
+    srcs: [
+          "Android.go",
+    ],
+    pluginFor: ["soong_build"],
+}
+
+cc_librknnrt_prebuilt_library_shared {
+    name: "librknnrt",
+    compile_multilib: "both",
+
+    // some prop generate by Android.go
+
+    strip: {
+        none: true,
+    },
+    check_elf_files: false,
+    vendor: true,
+}
+
+cc_rockchip_prebuilt_binary {
+    name: "rknn_server",
+    init_rc: ["init.rknn_server.rc"],
+    strip: {
+        none: true,
+    },
+    check_elf_files: false,
+    vendor: true,
+    npu: true,
+}

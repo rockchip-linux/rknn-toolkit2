@@ -1,0 +1,13 @@
+models:
+    name: resnet50v2             # 模型输出名称
+    platform: onnx               # 原始模型使用的框架
+    model_file_path: ./resnet50v2.onnx #原模型路径
+    quantize: true               # 是否量化
+    dataset: ./dataset.txt       # 量化dataset文件路径（相对yml路径）
+    configs:
+      quantized_dtype: asymmetric_quantized-8 # 量化类型
+      mean_values: [123.675, 116.28, 103.53] # rknn.config的mean_values参数
+      std_values: [58.82, 58.82, 58.82]      # rknn.config的std_values参数
+      quant_img_RGB2BGR: false     # 不进行RGB2BGR转换
+      quantized_algorithm: normal  # 量化算法
+      quantized_method: channel    # 量化方法

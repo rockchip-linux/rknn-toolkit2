@@ -1,0 +1,14 @@
+build
+~*
+*.DS_Store
+.gradle
+.idea
+.externalNativeBuild
+gradle.properties
+glhelper/glhelper.iml
+local.properties
+app/.cxx
+app/.externalNativeBuild
+app/build
+app/app.iml
+app/release

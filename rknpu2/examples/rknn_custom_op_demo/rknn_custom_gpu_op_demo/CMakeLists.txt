@@ -1,0 +1,79 @@
+cmake_minimum_required(VERSION 3.4.1)
+
+project(rknn_custom_gpu_op_demo)
+
+set(CMAKE_CXX_STANDARD 11)
+set(CMAKE_CXX_STANDARD_REQUIRED ON)
+
+# rknn api
+set(RKNN_API_PATH ${CMAKE_SOURCE_DIR}/../../../runtime/${CMAKE_SYSTEM_NAME}/librknn_api)
+if(CMAKE_SYSTEM_NAME STREQUAL "Android")
+  set(RKNN_RT_LIB ${RKNN_API_PATH}/${CMAKE_ANDROID_ARCH_ABI}/librknnrt.so)
+else()
+  if(CMAKE_C_COMPILER MATCHES "aarch64")
+    set(LIB_ARCH aarch64)
+  else()
+    set(LIB_ARCH armhf)
+  endif()
+
+  set(RKNN_RT_LIB ${RKNN_API_PATH}/${LIB_ARCH}/librknnrt.so)
+endif()
+
+set(OPENCL_PATH  ${CMAKE_SOURCE_DIR}/../../3rdparty/opencl/libopencl-stub/)
+
+include_directories(${RKNN_API_PATH}/include)
+include_directories(${CMAKE_SOURCE_DIR}/../../3rdparty)
+include_directories(${CMAKE_SOURCE_DIR}/../../3rdparty/opencl/libopencl-stub/include/)
+
+set(CMAKE_INSTALL_RPATH "lib")
+
+### opencl wrapper
+set(libopencl_SRCS
+    ${OPENCL_PATH}/src/libopencl.cc
+)
+
+add_library(OpenCL SHARED ${libopencl_SRCS})
+
+
+add_library(rkcst_argmax SHARED 
+  src/rknn_custom_op_opencl_plugin_lib.cpp
+)
+
+target_link_libraries(rkcst_argmax
+  ${RKNN_RT_LIB}
+)
+
+
+add_executable(rknn_custom_gpu_op_demo
+  src/rknn_api_test_custom_op_opencl.cpp
+  src/rknn_custom_op_opencl_plugin_lib.cpp
+)
+
+target_link_libraries(rknn_custom_gpu_op_demo
+  ${RKNN_RT_LIB}
+)
+
+if(${CMAKE_SYSTEM_NAME} STREQUAL "Linux")
+    target_link_libraries(OpenCL "-Wl,--allow-shlib-undefined" dl)
+endif()
+
+#link cl library
+target_link_libraries(rknn_custom_gpu_op_demo  
+OpenCL dl)
+
+target_link_libraries(rkcst_argmax
+  OpenCL dl 
+)
+
+# install target and libraries
+set(CMAKE_INSTALL_PREFIX ${CMAKE_SOURCE_DIR}/install/rknn_custom_gpu_op_demo_${CMAKE_SYSTEM_NAME})
+
+install(TARGETS rknn_custom_gpu_op_demo DESTINATION ./)
+install(PROGRAMS ${RKNN_RT_LIB} DESTINATION lib)
+file(GLOB IMAGE_FILES "model/*.jpg")
+install(FILES ${IMAGE_FILES} DESTINATION ./model/)
+message(STATUS "target_soc = ${TARGET_SOC}")
+install(DIRECTORY model/${TARGET_SOC} DESTINATION ./model)
+file(GLOB CL_CERNEL_FILES "cl_kernel/*.cl ")
+install(FILES ${CL_CERNEL_FILES} DESTINATION ./model/)
+install(TARGETS rkcst_argmax DESTINATION lib)
