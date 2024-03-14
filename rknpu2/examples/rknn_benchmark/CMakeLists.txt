@@ -31,6 +31,7 @@ add_executable(rknn_benchmark
 target_link_libraries(rknn_benchmark
 	${RKNN_RT_LIB}
 	${OpenCV_LIBS}
+        log
 )
 
 
