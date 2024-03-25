@@ -1,3 +1,7 @@
+# Note
+  This repository is no longer maintained and has been moved to https://github.com/airockchip/rknn-toolkit2/ .
+  本仓库不再维护，已经移到https://github.com/airockchip/rknn-toolkit2 。
+
 # Description
   RKNN software stack can help users to quickly deploy AI models to Rockchip chips. The overall framework is as follows:
     <center class="half">
